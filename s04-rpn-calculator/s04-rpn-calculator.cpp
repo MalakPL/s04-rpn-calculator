@@ -156,7 +156,7 @@ void MyFunc()
 	double A;
 	A = Stos.top(); Stos.pop();
 
-	Stos.push(isPrime((int)A) ? A : 0);
+	Stos.push(isPrime((int)A) ? (int)A : 0);
 }
 
 
