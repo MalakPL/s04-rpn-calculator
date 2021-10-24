@@ -1,4 +1,8 @@
-﻿#include <iostream>
+﻿/*
+	Poprawny output: https://github.com/user943-24/Podstawy-Programowania/blob/main/src/s04-rpn-calculator-oo.txt
+*/
+
+#include <iostream>
 #include <vector>
 #include <stack>
 #include <string>
