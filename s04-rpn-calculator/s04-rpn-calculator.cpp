@@ -1,16 +1,15 @@
 ﻿#include <iostream>
-#include <queue>
 #include <vector>
 #include <stack>
 #include <string>
 
 using std::string;
-using std::queue;
 using std::vector;
 using std::stack;
-using std::exception;
+using std::logic_error;
 using std::cout;
-using std::stof;
+using std::cerr;
+using std::stod;
 using std::endl;
 
 const char* InvalidONPExceptionMessage = "Niepoprawne wyrazenie ONP";
@@ -21,9 +20,9 @@ auto main(int argc, const char* argv[]) -> int
 	try 
 	{
 		vector<string> ONP(argv, argv + argc);
-		stack<float> Stos;
+		stack<double> Stos;
 
-		float A, B;
+		double A, B;
 		for (int i = 1; i < argc; ++i)
 		{
 			if (ONP[i] == "+" || 
@@ -32,11 +31,18 @@ auto main(int argc, const char* argv[]) -> int
 				ONP[i] == "/" || 
 				ONP[i] == "**" || 
 				ONP[i] == "//" || 
-				ONP[i] == "%")
+				ONP[i] == "%" ||
+				ONP[i] == "p")
 			{
+				if (ONP[i] == "p")
+				{
+					cout << Stos.top() << endl;
+					continue;
+				}
+
 				if (Stos.size() < 2)
 				{
-					throw exception{ InvalidONPExceptionMessage };
+					throw logic_error { InvalidONPExceptionMessage };
 				}
 
 				A = Stos.top(); Stos.pop();
@@ -56,12 +62,12 @@ auto main(int argc, const char* argv[]) -> int
 				}
 				else if (ONP[i] == "/") /* Operator dzielenia */
 				{
-					if (A == 0) throw exception{ DivideByZeroExceptionMessage };
+					if (A == 0) throw logic_error { DivideByZeroExceptionMessage };
 					Stos.push(B / A);
 				}
 				else if (ONP[i] == "**") /* Operator potegowania */
 				{
-					Stos.push(powf(B, A));
+					Stos.push(pow(B, A));
 				}
 				else if (ONP[i] == "//") /* Operator dzielenia dla liczb całkowitch */
 				{
@@ -69,27 +75,26 @@ auto main(int argc, const char* argv[]) -> int
 				}
 				else if (ONP[i] == "%") /* Zgodnie z Panem Markiem, dodałem dodatkowy operator modulo */
 				{
-					if (A == 0) throw exception{ DivideByZeroExceptionMessage };
+					if (A == 0) throw logic_error { DivideByZeroExceptionMessage };
 					Stos.push(floor((int)B % (int)A));
 				}
 			}
 			else
 			{
-				Stos.push(stof(ONP[i]));
+				Stos.push(stod(ONP[i]));
 			}
 		}
 
 		if (Stos.size() != 1)
 		{
-			throw exception{ InvalidONPExceptionMessage };
+			throw logic_error { InvalidONPExceptionMessage };
 		}
 
-		cout << Stos.top() << endl;
 		return 0;
 	}
-	catch (exception ex)
+	catch (logic_error ex)
 	{
-		cout << ex.what() << endl;
+		cerr << ex.what() << endl;
 		return 1;
 	}
 }
