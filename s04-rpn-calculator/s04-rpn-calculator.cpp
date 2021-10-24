@@ -6,11 +6,13 @@
 #include <vector>
 #include <stack>
 #include <string>
+#include <map>
 
 using std::string;
 using std::vector;
 using std::stack;
 using std::logic_error;
+using std::map;
 using std::cout;
 using std::cerr;
 using std::stod;
@@ -18,70 +20,171 @@ using std::endl;
 
 const char* InvalidONPExceptionMessage = "Niepoprawne wyrazenie ONP";
 const char* DivideByZeroExceptionMessage = "Dzielenie przez 0";
+stack<double> Stos;
+
+void Add()
+{
+	if (Stos.size() < 2)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A, B;
+	B = Stos.top(); Stos.pop();
+	A = Stos.top(); Stos.pop();
+	Stos.push(A + B);
+}
+
+void Sub()
+{
+	if (Stos.size() < 2)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A, B;
+	B = Stos.top(); Stos.pop();
+	A = Stos.top(); Stos.pop();
+	Stos.push(A - B);
+}
+
+void Mul()
+{
+	if (Stos.size() < 2)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A, B;
+	B = Stos.top(); Stos.pop();
+	A = Stos.top(); Stos.pop();
+	Stos.push(A * B);
+}
+
+void Div()
+{
+	if (Stos.size() < 2)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A, B;
+	B = Stos.top(); Stos.pop();
+	A = Stos.top(); Stos.pop();
+	if (A == 0) throw logic_error{ DivideByZeroExceptionMessage };
+	Stos.push(A / B);
+}
+
+void Pow()
+{
+	if (Stos.size() < 2)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A, B;
+	B = Stos.top(); Stos.pop();
+	A = Stos.top(); Stos.pop();
+	Stos.push(pow(A, B));
+}
+
+void DivInt()
+{
+	if (Stos.size() < 2)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A, B;
+	B = Stos.top(); Stos.pop();
+	A = Stos.top(); Stos.pop();
+	Stos.push(floor(A / B));
+}
+
+void Mod()
+{
+	if (Stos.size() < 2)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A, B;
+	B = Stos.top(); Stos.pop();
+	A = Stos.top(); Stos.pop();
+
+	if (B == 0) throw logic_error{ DivideByZeroExceptionMessage };
+	Stos.push(floor((int)A % (int)B));
+}
+
+void Sqrt()
+{
+	if (Stos.size() < 1)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A;
+	A = Stos.top(); Stos.pop();
+	Stos.push(sqrt(A));
+}
+
+void Print()
+{
+	cout << Stos.top() << endl;
+}
+
+bool isPrime(int N)
+{
+	if (N < 2) { return false; }
+	if (N == 2) { return true; }
+
+	for (int i = 3; i <= sqrt(N); i += 2)
+	{
+		if (N % i == 0) { return false; }
+	}
+
+	return true;
+}
+
+void MyFunc()
+{
+	if (Stos.size() < 1)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
+	double A;
+	A = Stos.top(); Stos.pop();
+
+	Stos.push(isPrime((int)A) ? A : 0);
+}
+
+
+
+map<string, void (*)()> Opeartory{
+	{ "+", Add },
+	{ "-", Sub },
+	{ "*", Mul },
+	{ "/", Div },
+	{ "**", Pow },
+	{ "//", DivInt },
+	{ "%", Mod },
+	{ "sqrt", Sqrt },
+	{ "p", Print },
+	{ "prime", MyFunc }, /* Zgodnie z Panem Markiem, własna funkcja, jeżeli liczba na stosie jest pierwsza to ją zwraca, w innym wypadku zwraca 0 */
+};
 
 auto main(int argc, const char* argv[]) -> int
 {
-	try 
+	try
 	{
 		vector<string> ONP(argv, argv + argc);
-		stack<double> Stos;
 
-		double A, B;
 		for (int i = 1; i < argc; ++i)
 		{
-			if (ONP[i] == "+" || 
-				ONP[i] == "-" || 
-				ONP[i] == "*" || 
-				ONP[i] == "/" || 
-				ONP[i] == "**" || 
-				ONP[i] == "//" || 
-				ONP[i] == "%" ||
-				ONP[i] == "p")
+			if (Opeartory.find(ONP[i]) != Opeartory.end())
 			{
-				if (ONP[i] == "p")
-				{
-					cout << Stos.top() << endl;
-					continue;
-				}
-
-				if (Stos.size() < 2)
-				{
-					throw logic_error { InvalidONPExceptionMessage };
-				}
-
-				A = Stos.top(); Stos.pop();
-				B = Stos.top(); Stos.pop();
-
-				if (ONP[i] == "+") /* Operator dodawania */
-				{
-					Stos.push(B + A);
-				}
-				else if (ONP[i] == "-") /* Operator odejmowania */
-				{
-					Stos.push(B - A);
-				}
-				else if (ONP[i] == "*") /* Operator mnozenia */
-				{
-					Stos.push(B * A);
-				}
-				else if (ONP[i] == "/") /* Operator dzielenia */
-				{
-					if (A == 0) throw logic_error { DivideByZeroExceptionMessage };
-					Stos.push(B / A);
-				}
-				else if (ONP[i] == "**") /* Operator potegowania */
-				{
-					Stos.push(pow(B, A));
-				}
-				else if (ONP[i] == "//") /* Operator dzielenia dla liczb całkowitch */
-				{
-					Stos.push(floor(B / A));
-				}
-				else if (ONP[i] == "%") /* Zgodnie z Panem Markiem, dodałem dodatkowy operator modulo */
-				{
-					if (A == 0) throw logic_error { DivideByZeroExceptionMessage };
-					Stos.push(floor((int)B % (int)A));
-				}
+				Opeartory[ONP[i]]();
 			}
 			else
 			{
@@ -91,7 +194,7 @@ auto main(int argc, const char* argv[]) -> int
 
 		if (Stos.size() != 1)
 		{
-			throw logic_error { InvalidONPExceptionMessage };
+			throw logic_error{ InvalidONPExceptionMessage };
 		}
 
 		return 0;
