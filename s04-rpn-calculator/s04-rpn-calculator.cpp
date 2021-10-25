@@ -143,7 +143,8 @@ bool isPrime(int N)
 	if (N < 2) { return false; }
 	if (N == 2) { return true; }
 
-	for (int i = 3; i <= sqrt(N); i += 2)
+	double sq = sqrt(N);
+	for (int i = 3; i <= sq; i += 2)
 	{
 		if (N % i == 0) { return false; }
 	}
@@ -184,7 +185,7 @@ auto main(int argc, const char* argv[]) -> int
 		vector<string> ONP(argv + 1, argv + argc); /* Omijamy pierwszy argument, ktory jest sciezka do pliku wykonalnego */
 
 		/* Zgodnie z zadaniem wykorzystałem range-based for */
-		for (string Element : ONP)
+		for (const string Element : ONP)
 		{
 			if (Opeartory.find(Element) != Opeartory.end()) /* Jeżeli jest opreatorem */
 			{
