@@ -142,7 +142,7 @@ bool isPrime(int N)
 {
 	if (N < 2) { return false; }
 	if (N == 2) { return true; }
-
+	if (N % 2 == 0) { return false; }
 	double sq = sqrt(N);
 	for (int i = 3; i <= sq; i += 2)
 	{
