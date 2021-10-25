@@ -130,6 +130,11 @@ void Sqrt()
 
 void Print()
 {
+	if (Stos.size() < 1)
+	{
+		throw logic_error{ InvalidONPExceptionMessage };
+	}
+
 	cout << Stos.top() << endl;
 }
 
@@ -159,9 +164,7 @@ void MyFunc()
 	Stos.push(isPrime((int)A) ? (int)A : 0);
 }
 
-
-
-map<string, void (*)()> Opeartory{
+map<string, void (*)()> Opeartory {
 	{ "+", Add },
 	{ "-", Sub },
 	{ "*", Mul },
@@ -178,17 +181,18 @@ auto main(int argc, const char* argv[]) -> int
 {
 	try
 	{
-		vector<string> ONP(argv, argv + argc);
+		vector<string> ONP(argv + 1, argv + argc); /* Omijamy pierwszy argument, ktory jest sciezka do pliku wykonalnego */
 
-		for (int i = 1; i < argc; ++i)
+		/* Zgodnie z zadaniem wykorzystałem range-based for */
+		for (string Element : ONP)
 		{
-			if (Opeartory.find(ONP[i]) != Opeartory.end())
+			if (Opeartory.find(Element) != Opeartory.end()) /* Jeżeli jest opreatorem */
 			{
-				Opeartory[ONP[i]]();
+				Opeartory[Element]();
 			}
-			else
+			else /* Jeżeli nie jest operatorem */
 			{
-				Stos.push(stod(ONP[i]));
+				Stos.push(stod(Element));
 			}
 		}
 
