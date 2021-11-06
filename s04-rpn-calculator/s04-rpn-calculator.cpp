@@ -24,8 +24,10 @@ const char* DivideByZeroExceptionMessage = "Dzielenie przez 0";
 /* Publiczny Stos */
 stack<double> Stos;
 
+#pragma region Operatory
 void Add()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
@@ -36,6 +38,7 @@ void Add()
 
 void Sub()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
@@ -46,6 +49,7 @@ void Sub()
 
 void Mul()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
@@ -56,6 +60,7 @@ void Mul()
 
 void Div()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
@@ -67,6 +72,7 @@ void Div()
 
 void Pow()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
@@ -77,6 +83,7 @@ void Pow()
 
 void DivInt()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
@@ -87,6 +94,7 @@ void DivInt()
 
 void Mod()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
@@ -99,6 +107,7 @@ void Mod()
 
 void Sqrt()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 1) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A;
@@ -108,6 +117,7 @@ void Sqrt()
 
 void Print()
 {
+	/* Sprawdzenie poprawności stosu */
 	if (Stos.size() < 1) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	cout << Stos.top() << endl;
@@ -133,17 +143,16 @@ bool isPrime(int N)
 
 void MyFunc()
 {
-	if (Stos.size() < 1)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 1) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A;
 	A = Stos.top(); Stos.pop();
 
 	Stos.push(isPrime((int)A) ? (int)A : 0);
 }
+#pragma endregion
 
+/* Mapowanie znaków jako funkcjie */
 map<string, void (*)()> Opeartory {
 	{ "+", Add },
 	{ "-", Sub },
@@ -161,7 +170,7 @@ auto main(int argc, const char* argv[]) -> int
 {
 	try
 	{
-		vector<string> ONP(argv + 1, argv + argc); /* Omijamy pierwszy argument, ktory jest sciezka do pliku wykonalnego */
+		vector<string> ONP(argv + 1, argv + argc); /* Argumenty. Omijamy pierwszy, ktory jest sciezka do pliku wykonalnego */
 
 		/* Zgodnie z zadaniem wykorzystałem range-based for */
 		for (const string Element : ONP)
@@ -176,10 +185,8 @@ auto main(int argc, const char* argv[]) -> int
 			}
 		}
 
-		if (Stos.size() != 1)
-		{
-			throw logic_error{ InvalidONPExceptionMessage };
-		}
+		/* Sprawdzenie poprawności stosu */
+		if (Stos.size() != 1) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 		return 0;
 	}
