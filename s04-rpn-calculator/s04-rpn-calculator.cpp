@@ -21,7 +21,7 @@ using std::endl;
 const char* InvalidONPExceptionMessage = "Niepoprawne wyrazenie ONP";
 const char* DivideByZeroExceptionMessage = "Dzielenie przez 0";
 
-/* Publiczny Stos */
+/* Globalny Stos */
 stack<double> Stos;
 
 #pragma region Operatory
@@ -152,7 +152,7 @@ void MyFunc()
 }
 #pragma endregion
 
-/* Mapowanie znaków jako funkcjie */
+/* Mapowanie znaków jako funkcje */
 map<string, void (*)()> Opeartory {
 	{ "+", Add },
 	{ "-", Sub },
