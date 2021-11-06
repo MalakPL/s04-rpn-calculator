@@ -138,6 +138,8 @@ bool isPrime(int N)
 	/*
 	Lub warunek 2^p mod p == 2, gdzie p to liczba pierwsza. Szybsza metoda, jednak potrzebuje więcej pamięci. Można użyć szybkiego potęgowania modularnego do optymalizacji.
 	2^p (np. Poziomy w Trójkącie Pascala)-> https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Pascal4.png/330px-Pascal4.png
+
+	Dla odwrotnej notacji polskiej wyrażenie to będzie miało postać "2 {liczba pierwsza} ** {liczba pierwsza} % p"
 	*/
 }
 
