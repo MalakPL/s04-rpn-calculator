@@ -155,7 +155,7 @@ void MyFunc()
 #pragma endregion
 
 /* Mapowanie znaków jako funkcje */
-map<string, void (*)()> Opeartory {
+map<string, void (*)()> Opeartory{
 	{ "+", Add },
 	{ "-", Sub },
 	{ "*", Mul },
@@ -167,6 +167,14 @@ map<string, void (*)()> Opeartory {
 	{ "p", Print },
 	{ "prime", MyFunc }, /* Zgodnie z Panem Markiem, własna funkcja, jeżeli liczba na stosie jest pierwsza to ją zwraca, w innym wypadku zwraca 0 */
 };
+
+void Usage()
+{
+	cout << "Przyklad zastosowania:" << endl;
+	cout << "./s04-rpn-calculator.exe 4 prime p" << endl;
+	cout << "./s04-rpn-calculator.exe 5 prime p" << endl;
+	cout << "./s04-rpn-calculator.exe 2 11 ** 11 % p" << endl << endl;
+}
 
 auto main(int argc, const char* argv[]) -> int
 {
@@ -194,7 +202,9 @@ auto main(int argc, const char* argv[]) -> int
 	}
 	catch (logic_error ex)
 	{
-		cerr << ex.what() << endl;
+		Usage();
+
+		cerr << "Wyjatek: " << ex.what() << endl;
 		return 1;
 	}
 }
