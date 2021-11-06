@@ -20,14 +20,13 @@ using std::endl;
 
 const char* InvalidONPExceptionMessage = "Niepoprawne wyrazenie ONP";
 const char* DivideByZeroExceptionMessage = "Dzielenie przez 0";
+
+/* Publiczny Stos */
 stack<double> Stos;
 
 void Add()
 {
-	if (Stos.size() < 2)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
 	B = Stos.top(); Stos.pop();
@@ -37,10 +36,7 @@ void Add()
 
 void Sub()
 {
-	if (Stos.size() < 2)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
 	B = Stos.top(); Stos.pop();
@@ -50,10 +46,7 @@ void Sub()
 
 void Mul()
 {
-	if (Stos.size() < 2)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
 	B = Stos.top(); Stos.pop();
@@ -63,10 +56,7 @@ void Mul()
 
 void Div()
 {
-	if (Stos.size() < 2)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
 	B = Stos.top(); Stos.pop();
@@ -77,10 +67,7 @@ void Div()
 
 void Pow()
 {
-	if (Stos.size() < 2)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
 	B = Stos.top(); Stos.pop();
@@ -90,10 +77,7 @@ void Pow()
 
 void DivInt()
 {
-	if (Stos.size() < 2)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
 	B = Stos.top(); Stos.pop();
@@ -103,10 +87,7 @@ void DivInt()
 
 void Mod()
 {
-	if (Stos.size() < 2)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 2) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A, B;
 	B = Stos.top(); Stos.pop();
@@ -118,10 +99,7 @@ void Mod()
 
 void Sqrt()
 {
-	if (Stos.size() < 1)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 1) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	double A;
 	A = Stos.top(); Stos.pop();
@@ -130,10 +108,7 @@ void Sqrt()
 
 void Print()
 {
-	if (Stos.size() < 1)
-	{
-		throw logic_error{ InvalidONPExceptionMessage };
-	}
+	if (Stos.size() < 1) { throw logic_error{ InvalidONPExceptionMessage }; }
 
 	cout << Stos.top() << endl;
 }
@@ -150,6 +125,10 @@ bool isPrime(int N)
 	}
 
 	return true;
+	/*
+	Lub warunek 2^p mod p == 2, gdzie p to liczba pierwsza. Szybsza metoda, jednak potrzebuje więcej pamięci. Można użyć szybkiego potęgowania modularnego do optymalizacji.
+	2^p (np. Poziomy w Trójkącie Pascala)-> https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Pascal4.png/330px-Pascal4.png
+	*/
 }
 
 void MyFunc()
